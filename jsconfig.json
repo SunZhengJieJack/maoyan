@@ -1,0 +1,5 @@
+{
+    "compilerOptions": { // 解决vscode报错的解决方案。
+        "experimentalDecorators": true
+    }
+}

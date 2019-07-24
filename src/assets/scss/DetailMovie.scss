@@ -1,0 +1,462 @@
+.DetailMovie-enter-active, .DetailMovie-leave-active{
+    transition: all .5s;
+  }
+  .DetailMovie-enter, .DetailMovie-leave-to {
+      transform: translate3d(100%, 0, 0);
+  }
+  .DetailMovie{
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 100;
+    background: #fff;
+    .buyTicket{
+      width: 100vw;
+      position: fixed;
+      z-index: 29;
+      bottom: 0;
+      background: $font-color;
+      color: #fff;
+      line-height: .9rem;
+      text-align: center;
+      font-size: .28rem;
+    }
+    .DetailMovie_container{
+      // height: 100vh;
+      // overflow: hidden;
+    }
+    .Movie-header{
+      position: absolute;
+      top: 0;
+      width: 100vw;
+      line-height: 0.7rem;
+      text-align: center;
+      z-index: 10;
+      .m-arrow-left{
+        float: left;
+        font-size: 0.4rem;
+        color: #fff;
+        margin-left: 0.4rem;
+        line-height: 0.7rem;
+      }
+      .tag{
+        color: #fff;
+        display: inline-block;
+        width: .9rem;
+        height: .4rem;
+        line-height: .4rem;
+        border-radius: .3rem;
+        background: rgba(80, 74, 64, 0.6);
+      }
+      .m-enjony{
+        font-size: 0.4rem;
+        color: #fff;
+        margin-right: 0.4rem;
+        line-height: 0.7rem;
+        float: right;
+      }
+    }
+    .Movie_desc{
+      width: 100vw;
+      overflow: hidden;
+      .Movie_bg{
+        width: 100vw;
+        height: 0;
+        height: 5.9rem;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+        img{
+          position: absolute;
+          z-index: -1;
+          height: 6.6rem;
+          width: 100%;
+          filter: blur(1rem);
+        }
+      }
+      .Movie_datum{
+        display: flex;
+        padding-top: .7rem;
+        .MovieImg_box{
+          width: 1.8rem;
+          height: 2.5rem;
+          margin-left: .3rem;
+          margin-top: .3rem;
+          overflow: hidden;
+          img{
+            width: 100%;
+          }                                              
+        }
+        .Movie_introduction{
+          margin-top: .4rem;
+          margin-left: .2rem;
+          color: #c4b8ab;
+          .nm{
+            color: #fff;
+          }
+          .enm{
+            line-height: .4rem;
+          }
+          .cat{
+            margin-top: .2rem;
+            line-height: .35rem;
+          }
+          .dur{
+            line-height: .35rem;
+          }
+          .pubDesc{
+            line-height: .35rem;
+          }
+          .wish{
+            margin-top: .15rem;
+            .wishPart{
+              color: #faaf00;
+              font-size: .32rem;
+            }
+          }
+        }
+      }
+      .Movie_evaluate{
+        display: flex;
+        padding-top: .2rem;
+        .Movie_score{
+          margin-left: .3rem;
+          width: 5rem;
+          height: 1rem;
+          background: rgba(80, 74, 64, 0.6);
+          display: flex;
+          border-radius: .05rem;
+          .praise{
+            display: flex;
+            flex-direction: column;
+            width: 1rem;
+            text-align: center;
+            justify-content: center;
+            .m-maoyan{
+              width: .32rem;
+              height: .32rem;
+              background: #fff;
+              border-radius: 50%;
+              margin: 0 auto;
+              color: red;
+            }
+            .public_praise{
+              color: #fff;
+              font-weight: 500;
+              margin-top: .1rem;
+            }
+          }
+          .judge{
+            .part{
+              display: flex;
+              align-items: center;
+              line-height: .3rem;
+              .fraction{
+                color: #fff;
+                width: .75rem;
+                margin-right: .05rem;
+                span{
+                  float: right;
+                }
+              }
+              .processBar{
+                width: 2.2rem;
+                height: .05rem;
+                border-radius: .1rem;
+                background: gray;
+                line-height: .3rem;
+                .processBar_Bg{
+                  border-radius: .1rem;
+                  height: .05rem;
+                  background: #faaf00;
+                }
+              }
+              .percent{
+                color: #fff;
+                width: .85rem;
+                margin-left: .05rem;
+                span{
+                  float: right;
+                }
+              }
+            }
+          }
+        }
+        .star_box{
+          width: 1.7rem;
+          border-radius: .05rem;
+          margin-left: .2rem;
+          background: rgba(80, 74, 64, 0.6);
+          .maoyan_score{
+            color: #fff;
+            font-weight: 500;
+            margin-left: .1rem;
+            margin-top: .05rem;
+            line-height: .3rem;
+          }
+          .star{
+            display: flex;
+            color: #faaf00;
+            align-items: center;
+            margin-left: .1rem;
+            span{
+              font-size: .28rem;
+            }
+            .starType{
+              width: .24rem;
+              height: .24rem;
+              transform: scale(0.7);
+              .iconfont{
+                font-size: .24rem;
+              }
+            }
+          }
+          .snum{
+            color: #fff;
+            display: flex;
+            align-items: center;
+            margin-left: .1rem;
+          }
+        }
+      }
+      .Movie_Feel{
+        display: flex;
+        align-items: center;
+        width: 6.9rem;
+        margin: 0 auto;
+        padding-top: .2rem;
+        color: #fff;
+        text-align: center;
+        .wishSee{
+          width: 3.35rem;
+          background: rgba(80, 74, 64, 0.6);
+          border-radius: .05rem;
+          line-height: .7rem;
+          span{
+            margin-left: .1rem;
+          }
+        }
+        .seen{
+          margin-left: .2rem;
+          width: 3.35rem;
+          background: rgba(80, 74, 64, 0.6);
+          border-radius: .05rem;
+          line-height: .7rem;
+          span{
+            margin-left: .1rem;
+          }
+        }
+      }
+    }
+    .words_desc{
+      background: gray;
+      .words_box{
+        background: #fff;
+        .words_translate{
+          width: 6.9rem;
+          margin: 0 auto;
+          font-size: .27rem;
+          padding: .1rem 0 .1rem 0;
+          .words{
+            font-weight: 500;
+            line-height: .4rem;
+            height: 1.2rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+          }
+          p{
+            text-align: center;
+            .m-arrow-down{
+              font-size: .5rem;
+            }
+            .m-arrow-up{
+              font-size: .5rem;
+            }
+          }
+        }
+      }
+      .billing{
+        background: #fff;
+        margin-top: .2rem;
+        .heat-title{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.28rem;
+          .desc{
+            font-weight: 600;
+            padding: 0.2rem 0.3rem 0.2rem 0.25rem;
+          }
+          .all-works{
+            padding: 0.2rem 0.3rem 0.2rem 0.25rem;
+          }
+        }
+        .billing_brief{
+          width: 100vw;
+          overflow: hidden;
+          .billing_container{
+            display: flex;
+            overflow-x:scroll;
+            width: 100%;
+            .swiper-container{
+              padding: 0 .2rem 0 .2rem;
+              .swiper-wrapper{
+                .swiper-slide{
+                  width: auto !important;
+                  padding-bottom: 0.2rem;
+                  margin-right: 0.1rem;
+                  height: auto;
+                  .img_container{
+                    width: 2.4rem; 
+                    height: 1.6rem;
+                    border-radius: 0.05rem;
+                    overflow: hidden;
+                    img{
+                      width: 100%;
+                      height: 100%;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .Movie_comments{
+      margin-top: 0.2rem;
+      background: #fff;
+      border-radius: .2rem;
+      width: 100vw;
+      // padding-bottom: 5rem;
+      .Movie_comments_head{
+        .Movie_comments_btn{
+          line-height: 0.8rem;
+          height: 0.8rem;
+          .talk{
+            float: left;
+            margin-left: 0.3rem;
+            font-size: 0.28rem;
+            font-weight: 600;
+          }
+          .joinTalk{
+            float: right;
+            margin-right: 0.3rem;
+            display: inline-block;
+            line-height: 0.48rem;
+            width: 1.2rem;
+            background: #e93d3f;
+            color: #fff;
+            text-align: center;
+            border-radius: 0.4rem;
+            margin-top: 0.15rem;
+          }
+        }
+        .Btn_container{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0 0.4rem;
+            padding-bottom: 0.2rem;
+            border-bottom: 1px solid #e6e6e6;
+            .Btn_item{
+                // flex: 1;
+                display: inline-block;
+                line-height: 0.6rem;
+                border: 1px solid #e6e6e6; 
+                border-radius: 0.3rem;
+                margin: 0.2rem 0 0 0.2rem;
+                padding: 0 0.2rem;
+            }
+        }
+      }
+      .Movie_comments_content{
+        padding-bottom: 0.9rem;
+        .comments-header{
+          padding: 0 0 0 0.3rem;
+          line-height: 0.8rem;
+        }
+        .comments_information_container{
+          overflow: hidden;
+          // padding-bottom: 0.9rem;
+          .comments_information{
+            padding-left: 0.3rem;
+            display: flex;
+            .img_container{
+              width: 0.7rem;
+              height: 0.7rem;
+              border-radius: 50%;
+              overflow: hidden;
+              margin-top: 0.2rem;
+              img{
+                width: 100%;
+              }
+            }
+            .All_person{
+              margin-top: 0.2rem;
+              padding-left: 0.3rem;
+              overflow: hidden;
+              width: 6rem;
+              border-bottom: 1px solid #e6e6e6;
+              .person_config{
+                .person_config_continaer{
+                  .nick{
+                    font-weight: 600;
+                  }
+                  .userLevel{
+                    display: inline-block;
+                    width: 0.6rem;
+                    line-height: 0.32rem;
+                    border: 1px solid #e6e6e6;
+                    border-radius: 0.2rem;
+                    text-align: center;
+                    margin-left: 0.2rem;
+                  }
+                }
+                .grade{
+                  margin-top: 0.2rem;
+                }
+              }
+              .content{
+                margin-top: 0.2rem;
+                line-height: 0.4rem;
+                width: 6rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+              }
+              .approve{
+                line-height: 1rem;
+                display: flex;
+                justify-content: space-between;
+                .overtime{
+
+                }
+                .approve_right{
+                  span{
+                    line-height: 0.6rem;
+                    border: 1px solid #e6e6e6;
+                    border-radius: 0.2rem;
+                    padding: 0.1rem;
+                    i{
+                      vertical-align: middle;
+                      padding: 0.02rem;
+                    }
+                  }
+                  .good{
+                  }
+                  .reply{
+                    margin-left: 0.2rem;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

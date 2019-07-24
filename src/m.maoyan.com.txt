@@ -1,0 +1,149 @@
+http://m.maoyan.com
+设置允许发送cookie
+
+1、城市列表（在点击选择某个城市后，把cityId和城市名字存到cookie里，键为ci，值为 '10,上海'
+    /dianying/cities.json
+    get
+    host  m.maoyan.com
+    referer  http://m.maoyan.com
+
+2、正在热映   （每个城市电影列表不一样）
+    /ajax/movieOnInfoList
+    get
+    query  token=
+    host  m.maoyan.com
+    referer  http://m.maoyan.com
+
+3、热映加载更多
+    /ajax/moreComingList
+    get
+    query
+        token=
+        movieIds='a,b,c,d,e'
+    host  m.maoyan.com
+    referer  http://m.maoyan.com
+
+
+4、电影详情（点击购票）
+    /ajax/detailmovie
+    get
+    query  movieId=
+    Host: m.maoyan.com
+    Referer: http://m.maoyan.com/cinema/movie/1204774?$from=canary
+
+5、获取电影的影院列表
+    /ajax/movie
+    post
+    query  forceUpdate=1537929693307 时间戳
+    params(form data)
+        movieId: 1204774
+        day: 2018-09-26
+        offset: 0
+        limit: 20
+        districtId: -1
+        lineId: -1
+        hallType: -1
+        brandId: -1
+        serviceId: -1
+        areaId: -1        此处需要更详细的id才能获得正确定位的影院，目前无法获取正确定位
+        stationId: -1
+        item:
+        updateShowDay: true
+        reqId: 1537929690295
+        cityId: 10
+
+    Host: m.maoyan.com
+    Origin: http://m.maoyan.com
+    Referer: http://m.maoyan.com/cinema/movie/1204774?$from=canary
+
+5.1、获取影院列表（不依赖电影）
+    /ajax/cinemaList
+    get
+    query
+        day: 2018-09-29
+        offset: 20
+        limit: 20
+        districtId: -1
+        lineId: -1
+        hallType: -1
+        brandId: -1
+        serviceId: -1
+        areaId: -1
+        stationId: -1
+        item:
+        updateShowDay: false
+        reqId: 1538201926130
+        cityId: 10
+
+6、影院筛选(全城，品牌，特色)
+    /ajax/filterCinemas
+    get
+    query
+        movieId: 1204774
+        day: 2018-09-26
+    Host: m.maoyan.com
+    Referer: http://m.maoyan.com/cinema/movie/1204774?$from=canary
+
+
+7、搜索电影、电影院
+    /ajax/search
+    get
+    query
+        cityId
+        kw  输入的内容
+        stype: -1
+
+8、电影评论
+    /mmdb/comments/movie/1204774.json    电影id.json
+    get
+    query
+        _v_: yes
+        offset: 15     获取评论的索引，例：从第15个开始获取  数量固定15个
+        startTime: 2018-09-29 13:35:42
+
+9、评论的回复
+    /mmdb/replies/comment/1039657548.json   评论的id（上面的接口会返回id）
+    get
+    query
+        _v_: yes
+        offset: 10   同上
+
+
+10、近期最受期待电影
+    /ajax/mostExpected
+    get
+    query
+        ci: 10  目测是城市id
+        limit: 10   获取的数量
+        offset: 0   获取的索引
+        token:
+
+11、即将上映
+    /ajax/comingList
+    get
+    query
+        ci: 10
+        token:
+        limit: 10   获取初始数量
+
+12、加载更多即将上映
+    /ajax/moreComingList
+    get
+    query
+        ci: 10
+        token:
+        limit: 10
+        movieIds:'a,b,c,d'  需要加载的电影id数组（上面的接口会拿到全部电影id）
+
+13、影院详情（包括影院所有购票信息）
+    /ajax/cinemaDetail
+    get
+    query
+        cinemaId: 17283 (获取影院列表时返回)
+        movieId: 1204774
+
+14、影院的部分小信息
+    /ajax/cinemaAjaxDetail
+    get
+    query
+        cinemaId: 17283

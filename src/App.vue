@@ -1,29 +1,76 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <router-view/>
+    <Nav/>
   </div>
 </template>
+<script>
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import Nav from './views/ui/Nav.vue';
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+  @Component({
+    components: {
+      Nav
+    },
+  })
+export default class Index extends Vue {
 
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
-export default class App extends Vue {}
+}
 </script>
-
-<style>
+<style lang="scss">
+  .slide-left-enter{
+    transform: translateX(100vw);
+    z-index: 2;
+  }
+  .slide-left-enter-to{
+    transform: translateX(0);
+    z-index: 2;
+  }
+  .slide-left-leave{
+    transform: translateX(0);
+    z-index: 1;
+    position: absolute !important;
+  }
+  .slide-left-leave-to{
+    transform: translateX(-100vw);
+    z-index: 1;
+    position: absolute !important;
+  }
+  /*right*/
+  .slide-right-enter{
+    transform: translateX(-100vw);
+    z-index: 2;
+  }
+  .slide-right-enter-to{
+    transform: translateX(0);
+    z-index: 2;
+  }
+  .slide-right-leave{
+    transform: translateX(0);
+    z-index: 1;
+    position: absolute !important;
+  }
+  .slide-right-leave-to{
+    transform: translateX(100vw);
+    z-index: 1;
+    position: absolute !important;
+  }
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active{
+    transition: .3s transform;
+  }
+  html{
+    font-size: 13.333333vw;
+  }
+  body{
+    font-size: 0.24rem;
+  }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
