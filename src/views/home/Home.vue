@@ -73,14 +73,16 @@ import { State, Mutation} from 'vuex-class';
 import Cookies from 'js-cookie';
 // import Iscroll from '@/components/Scroll.vue'
 import { clearTimeout } from 'timers';
-import BScroll from "better-scroll";
+import BScroll from 'better-scroll';
+
     @Component({
       components: {
         ChooseCity,
         // Iscroll,
       },
     })
-export default class Home extends Vue {
+
+class Home extends Vue {
 
       id= 1;
 
@@ -103,11 +105,17 @@ export default class Home extends Vue {
       switchCity = false;
 
       goDetail = null;
+
       @State('movieList') movieList;
+
       @State('comingList') comingList;
+
       @Mutation('switchData') switchData;
+
       @Mutation('comingData') comingData;
+
       @State('movieLen') movieLen;
+
       @Mutation('obtainLength') obtainLength;
 
       @Watch('$route')
@@ -123,7 +131,7 @@ export default class Home extends Vue {
         }
       }
 
-      @Watch('comingList', {deep: true})  // 初始化iscroll
+      @Watch('comingList', {deep: true}) // 初始化iscroll
       watchMoive(newValue, oldValue) {
         setTimeout(()=>{
           // this.$refs['Iscroll'].initScroll();
@@ -137,11 +145,11 @@ export default class Home extends Vue {
           let arr = [];
           data.map(res=>{
             arr.push(...res.items);
-          })
+          });
           this.NowCity = arr.filter(res=>{
             return res.nm === '青岛';
-          })
-          let str = String(this.NowCity[0].id)+ ',' + String(this.NowCity[0].nm);
+          });
+          let str = String(this.NowCity[0].id) + ',' + String(this.NowCity[0].nm);
           Cookies.set('ci',str);
           this.upDataMoive(this.NowCity[0].id);
         } else {
@@ -162,8 +170,7 @@ export default class Home extends Vue {
         // better-scroll初始化
         this.$nextTick(() => {
           this.initScroll();
-        }) 
-        
+        });
       }
 
       initScroll() {
@@ -172,14 +179,15 @@ export default class Home extends Vue {
           probeType: 3,
           scrollY: true,
           click: true,
-          useTransition:false,  // 防止iphone微信滑动卡顿
-          bounce:true,
-          momentumLimitDistance: 5
+          useTransition: false, // 防止iphone微信滑动卡顿
+          bounce: true,
+          momentumLimitDistance: 5,
         });
         this.betterScroll.on('scroll', (pos) => {
           this.scrollTop(pos.y);
-        })
+        });
       }
+
       // 根据滚动距离变更导航栏的背景色。
       scrollTop (top) { 
         if (this.betterScroll.y > 5) {
@@ -206,6 +214,7 @@ export default class Home extends Vue {
         this.address = Cookies.get('ci').split(',')[1];
         this.switchCity = false;
       }
+
       chooseTab(index, i) { // boder-bottom切换路由位移。
         this.tabSlideLeft = this.$refs[`tab-${index}`][0].offsetWidth * index + this.$refs[`tab-${index}`][0].offsetWidth / 2 - this.$refs['tab-slide'].offsetWidth / 2; // 导航滑块点击位移
         this.$router.push('/home/' + i.path);
@@ -256,7 +265,7 @@ export default class Home extends Vue {
             token: '',
             ci: ci,
           }
-          this.$axios.get('/ajax/comingList',{params}).then(res => { // 即将上映接口
+          this.$axios.get('/ajax/comingList',{ params }).then(res => { // 即将上映接口
             let comingList = res.data.coming;
             comingList.forEach((item) => {
               item.img = item.img.replace(/w.h/g, '120.180');
@@ -266,12 +275,13 @@ export default class Home extends Vue {
             obj = {
               total: this.total,
               totalCounts: res.data.coming.length,
-            }
+            };
             this.obtainLength(obj);
           })
         });
       }
     }
+export default Home;
 </script>
 <style lang="scss">
 .goDetail-enter-active, .goDetail-leave-active{

@@ -28,65 +28,65 @@
                     </div>
                 </div>
                 <div class="result_container" id="result_container" v-if="show">
-                <Scroll ref="Scroll">
-                    <div class="result_box">
-                        <div class="search-result">
-                            <div class="gather-title">
-                                <p>电影/电视剧/综艺</p>
-                            </div>
-                            <div class="gather" v-for="i in movies" :key="i.id">
-                                <div class="img_container">
-                                    <img :src="i.img"/>
+                    <div ref="bscroll" style="height: 100vh;overflow:hidden">
+                    <!-- <Scroll ref="Scroll"> -->
+                        <div class="result_box">
+                            <div class="search-result">
+                                <div class="gather-title">
+                                    <p>电影/电视剧/综艺</p>
                                 </div>
-                                <div class="brief_desc">
-                                    <h3 class="nm">{{i.nm}}</h3>
-                                    <p class="enm">{{i.enm}}</p>
-                                    <p class="cat">{{i.movieType==2?i.cat.split(',').join(' | '):i.cat}}</p>
-                                    <p class="pubDesc">{{i.pubDesc}}</p>
+                                <div class="gather" v-for="i in movies" :key="i.id">
+                                    <div class="img_container">
+                                        <img :src="i.img"/>
+                                    </div>
+                                    <div class="brief_desc">
+                                        <h3 class="nm">{{i.nm}}</h3>
+                                        <p class="enm">{{i.enm}}</p>
+                                        <p class="cat">{{i.movieType==2?i.cat.split(',').join(' | '):i.cat}}</p>
+                                        <p class="pubDesc">{{i.pubDesc}}</p>
+                                    </div>
+                                    <div class="wantSee">
+                                        <p class="wantSee_container">{{i.wish}}<span>人想看</span></p>
+                                        <button class="wishBtn" v-show="i.movieType===0">想看</button>
+                                    </div>
                                 </div>
-                                <div class="wantSee">
-                                    <p class="wantSee_container">{{i.wish}}<span>人想看</span></p>
-                                    <button class="wishBtn" v-show="i.movieType===0">想看</button>
-                                </div>
-                            </div>
-                            <div class="seeMore">
-                                <p>查看全部{{total}}部影视结果
-                                    <i class="iconfont m-arrow-right"></i>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="cinema-result">
-                            <div class="cinema-title">
-                                <p>影院</p>
-                            </div>
-                            <div class="cinema" v-for="i in cinemas" :key="i.id">
-                                <header class="cm_name">
-                                    <p class="nm">{{i.nm}}</p>
-                                    <p class="sellPrice">
-                                        {{i.sellPrice}}元<span style="color:gray;">起</span>
+                                <div class="seeMore">
+                                    <p>查看全部{{total}}部影视结果
+                                        <i class="iconfont m-arrow-right"></i>
                                     </p>
-                                </header>
-                                <div class="addr_container">
-                                    <p class="addr">{{i.addr}}</p>
-                                    <p class="distance">{{parseInt(i.distance)+'km'}}</p>
                                 </div>
-                                <p class="vipDesc">
-                                    <span class="vipDesc lightOrange" v-if="i.vipDesc">{{i.vipDesc}}</span>
-                                </p>
-                                <p class="discount">
-                                    <span class="favourable">惠</span>
-                                    <!-- <span class="discount_desc">{{i.promotion.cardPromotionTag}}</span> -->
-                                </p>
                             </div>
-                            <div class="seeMore">
-                                <p>查看全部{{totalCounts}}部影视结果
-                                    <i class="iconfont m-arrow-right"></i>
-                                </p>
+                            <div class="cinema-result">
+                                <div class="cinema-title">
+                                    <p>影院</p>
+                                </div>
+                                <div class="cinema" v-for="i in cinemas" :key="i.id">
+                                    <header class="cm_name">
+                                        <p class="nm">{{i.nm}}</p>
+                                        <p class="sellPrice">
+                                            {{i.sellPrice}}元<span style="color:gray;">起</span>
+                                        </p>
+                                    </header>
+                                    <div class="addr_container">
+                                        <p class="addr">{{i.addr}}</p>
+                                        <p class="distance">{{parseInt(i.distance)+'km'}}</p>
+                                    </div>
+                                    <p class="vipDesc">
+                                        <span class="vipDesc lightOrange" v-if="i.vipDesc">{{i.vipDesc}}</span>
+                                    </p>
+                                    <p class="discount">
+                                        <span class="favourable">惠</span>
+                                    </p>
+                                </div>
+                                <div class="seeMore">
+                                    <p>查看全部{{totalCounts}}部影视结果
+                                        <i class="iconfont m-arrow-right"></i>
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                <!-- </Scroll> -->
                     </div>
-                </Scroll>
-                    
                 </div>
             </div>
         </div>
@@ -94,16 +94,17 @@
 </template>
 
 <script>
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import Scroll from '../../components/Scroll.vue'
+import { Component, Vue } from 'vue-property-decorator';
+// import Scroll from '../../components/Scroll.vue'
 // import IScroll from 'iscroll';
+import BScroll from 'better-scroll';
 
     @Component({
         components: {
-            Scroll,
+            // Scroll,
         },
     })
-export default class Search extends Vue {
+class Search extends Vue {
     data = [
         {
             name: '分类找片',
@@ -123,61 +124,73 @@ export default class Search extends Vue {
         },
     ]
 
-    // myScroll = null;
     msg = null;
+
     total = null;
+
     totalCounts = null;
+
     cinemas = null;
+
     movies = null;
+
     show = false;
+
     resultArr = [];
 
-    // initScroll () {
-    //     this.myScroll = new IScroll('#result_container', {
-    //     });
-    //     document.querySelector('#result_container').addEventListener('touchmove', e=>{
-    //       e.preventDefault();
-    //     })
-    // }
-
-    getData () {
+    getData() {
         clearTimeout(this.timer);
-        this.timer = setTimeout(()=>{
-            let params = {
+        this.timer = setTimeout(() => {
+            const params = {
                 cityId: 1,
                 kw: this.msg,
                 stype: -1,
-            }
-            this.$axios.get('/ajax/search',{params}).then(res=>{
-                this.movies = res.data.movies.list.splice(0,3);
-                this.movies.forEach((item)=>{
+            };
+            this.$axios.get('/ajax/search', { params }).then(res => {
+                this.movies = res.data.movies.list.splice(0, 3);
+                this.movies.forEach(item => {
                     item.img = item.img.replace(/w.h/g, '120.180');
                 });
                 this.total = res.data.movies.total;
-                this.cinemas = res.data.cinemas.list.splice(0,2);
+                this.cinemas = res.data.cinemas.list.splice(0, 2);
                 this.totalCounts = res.data.cinemas.total;
                 this.show = this.msg;
-                setTimeout(()=>{
-                    // this.initScroll();
-                    this.$refs['Scroll'].initScroll();
+                setTimeout(() => {
+                    this.$nextTick(() => {
+                        this.initScroll();
+                    });
                     this.resultArr.unshift(this.msg);
-                })
-            })
-        },300)
+                });
+            });
+        }, 300);
+    }
+    
+    initScroll() {
+        const scrollDom = this.$refs.bscroll;
+        this.betterScroll = new BScroll(scrollDom, {
+          probeType: 3,
+          scrollY: true,
+          click: true,
+          useTransition: false, // 防止iphone微信滑动卡顿
+          bounce: true,
+          momentumLimitDistance: 5,
+        });
     }
 
-    del (index) {
+    del(index) {
         this.resultArr.splice(index, 1);
     }
 
     back() {
         this.$router.go(-1);
     }
-    empty () {
+
+    empty() {
         this.msg = '';
         this.show = this.msg;
     }
 }
+export default Search;
 </script>
 
 <style lang="scss" scoped>

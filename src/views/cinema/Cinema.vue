@@ -17,8 +17,8 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="cinema_container" id="wrapper"> -->
-        <Scroll ref="Scroll">
+        <div ref="bscroll" style="height: 100vh;overflow:hidden">
+        <!-- <Scroll ref="Scroll"> -->
             <div class="cinema_box">
                 <div class="All-Kinds" v-if="cinemaList">
                     <div class="cinemaList_add" v-for="i in cinemaList" :key="i.id">
@@ -48,72 +48,90 @@
                 </div>
                 <Loading v-else/>
             </div>
-        </Scroll>
+        <!-- </Scroll> -->
             
-        <!-- </div> -->
-        <ChooseCity ref="ChooseCity" @joinCity="joinCity" @changeCity="changeCity" :addGps="1"/>
+        </div>
+        <ChooseCity ref="ChooseCity" @backCity="backCity" @changeCity="changeCity" :addGps="1"/>
     </div>
 </template>
 
 <script>
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import ChooseCity from '../home/ChooseCity.vue';
 import Cookies from 'js-cookie';
-import Loading from '../../components/Loading.vue'
-import Scroll from '../../components/Scroll.vue'
-// import MoreScroll from 'iscroll/build/iscroll-probe';
+import Loading from '../../components/Loading.vue';
+import BScroll from 'better-scroll';
 
     @Component({
       components: {
         ChooseCity,
         Loading,
-        Scroll,
       },
     })
-export default class Cinema extends Vue {
+
+class Cinema extends Vue {
+
     address = Cookies.get('ci').split(',')[1];
+
     cinemaList = null;
-    tabs = [
-        {label:'全球', id: 1},
-        {label:'品牌', id: 2},
-        {label:'距离近', id: 3},
-        {label: '筛选', id: 4}];
+
+    tabs = [{
+        label: '全球', 
+        id: 1,
+    }, {
+        label: '品牌', 
+        id: 2,
+    }, {
+        label: '距离近', 
+        id: 3,
+    }, {
+        label: '筛选', 
+        id: 4,
+    }];
+
     mounted() {
         this.getData();
     }
+
     getData(id) {
-        this.$axios.get('/ajax/cinemaList',{
+        this.$axios.get('/ajax/cinemaList', {
             params: {
-                cityId: id || Cookies.get('ci').split(',')[0]
-            }
+                cityId: id || Cookies.get('ci').split(',')[0],
+            },
         }).then((res) => {
             this.cinemaList = res.data.cinemas;
-            setTimeout(() => {
-                // this.initScroll();
-                this.$refs['Scroll'].initScroll();
-            })
-        })
+            this.initScroll();
+        });
     }
-    joinCity () {   // 进入city组件
+
+    joinCity() { // 进入city组件
         this.$refs['ChooseCity'].showComponent();
-        // this.myScroll.scrollTo(0, 0);
     }
-    changeCity (data) {   // 从city组件回退
+
+    // 从city组件回退
+    backCity() {
+        this.$refs['ChooseCity'].showCom = false;
+        this.betterScroll.scrollTo(0, 0);
+    }
+
+    changeCity(data) { // 从city组件回退
         this.address = data.nm;
         this.getData(data.id);
     }
-    // initScroll () {   // 初始化iscroll
-    //     let IScroll = MoreScroll;
-    //     this.myScroll = new IScroll('#wrapper', {
-    //         disableMouse: false,
-    //         scrollbars: false,
-    //         // probeType: 3, // 3的时候实时监听事件
-    //     });
-    //     document.querySelector(`#wrapper`).addEventListener('touchmove', e=>{
-    //         e.preventDefault();
-    //     })
-    // }
+    
+    initScroll() {
+        const scrollDom = this.$refs.bscroll;
+        this.betterScroll = new BScroll(scrollDom, {
+            probeType: 3,
+            scrollY: true,
+            click: true,
+            useTransition: false, // 防止iphone微信滑动卡顿
+            bounce: true,
+            momentumLimitDistance: 5,
+        });
+    }
 }
+export default Cinema;
 </script>
 <style lang="scss">
 .cinema{

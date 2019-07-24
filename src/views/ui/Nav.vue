@@ -15,7 +15,7 @@ import { Component, Vue } from 'vue-property-decorator';
     components: {
     },
   })
-export default class navList extends Vue {
+class navList extends Vue {
     // computed
     get menus() {
       return this.$router.options.routes.slice(1, 5);
@@ -33,6 +33,7 @@ export default class navList extends Vue {
       
     }
   }
+export default navList;
 </script>
 
 <style lang="scss">
@@ -43,7 +44,7 @@ export default class navList extends Vue {
     background: #fff;
     border-top: .001rem solid #d8d8d8;
     display: flex;
-    z-index: 99;
+    z-index: 9999;
     .wrapper{
       height: .96rem;
       line-height: .72rem;

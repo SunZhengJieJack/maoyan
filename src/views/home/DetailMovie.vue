@@ -11,7 +11,8 @@
       </header>
       <!-- <div class="DetailMovie_container">
         <div id="wrapper"> -->
-      <Scroll ref="Scroll" :probeType="3">
+      <div ref="bscroll" style="height: 100vh;overflow:hidden">
+      <!-- <Scroll ref="Scroll" :probeType="3"> -->
         <div class="DetailMovie_container">
           <div class="Movie_desc" v-if="detailMovie" :style="{height: decideWidth?'4.8rem':'5.9rem'}">
             <div class="Movie_bg" :style="{height: decideWidth?'4.8rem':'5.9rem'}">
@@ -54,7 +55,7 @@
                 <p class="maoyan_score">猫眼评分</p>
                 <div class="star">
                   <span>{{detailMovie.sc}}</span>
-                  <div class="starType" v-for="item in itemClasses">
+                  <div class="starType" v-for="item in itemClasses" :key="item">
                     <i class="iconfont" :class="item?'m-star-'+item:''"></i>
                   </div>
                 </div>
@@ -144,8 +145,8 @@
           </div>
           <Loading v-else/>
         </div>
-      </Scroll>
-          
+      <!-- </Scroll> -->
+      </div>
         <!-- </div>
       </div> -->
       <div class="buyTicket"><span>特惠购票</span></div>
@@ -158,22 +159,29 @@ import Swiper from 'swiper';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 // import MoreScroll from 'iscroll/build/iscroll-probe';
 import Loading from '../../components/Loading.vue'
-import Scroll from '../../components/Scroll.vue'
-import { setTimeout } from 'timers';
+// import Scroll from '../../components/Scroll.vue'
+import BScroll from 'better-scroll';
+
     @Component({
       components: {
-        Loading,
-        Scroll,
+        Loading
       },
     })
-export default class detailMovie extends Vue {
+    
+class detailMovie extends Vue {
 
   detailMovie = null;
+
   decideWidth = null;
+
   show = false;
+
   autoHeight = null;
+
   Movie_comments = null;
+
   approve = null;
+
   comments = [
     {label: '全部', num: '', id: 1},
     {label: '好评', num: 16010, id: 2},
@@ -182,31 +190,28 @@ export default class detailMovie extends Vue {
     {label: '认证作者', num: 19, id: 5},
     {label: '同城', num: 803, id: 6},
   ]
+
   mounted () {
     this.$axios.get('/ajax/detailmovie?movieId='+ this.$route.params.id).then((res)=>{
       this.detailMovie = res.data.detailMovie;
       this.detailMovie.img = res.data.detailMovie.img.replace(/w.h/g, '120.180');
       this.detailMovie.photos = this.detailMovie.photos.map(item=>{
         return item.replace(/w.h/g, '120.180');
-      })
+      });
       this.decideWidth = this.detailMovie.distributions.some(item=>{
-        return item.proportion === '--'
-      })
-    })
+        return item.proportion === '--';
+      });
+    });
     let query = {
       _v_: 'yes',
       offset: 1,     //获取评论的索引，例：从第15个开始获取  数量固定15个
       startTime: '2018-09-29 13:35:42',
-    }
+    };
     this.$axios.get('/mmdb/comments/movie/'+ this.$route.params.id +'.json',{query}).then(res=>{
       this.Movie_comments = res.data.hcmts;
       setTimeout(() => {
-        // this.initScroll();
-        if(this.$refs['Scroll'].myScroll){
-          this.$refs['Scroll'].update();
-        }
-      })
-      
+        this.initScroll();
+      });
     })
   }
 
@@ -214,8 +219,7 @@ export default class detailMovie extends Vue {
   watchList (newValue, oldValue) {
     setTimeout(()=>{
       this.initSwiper();
-      this.$refs['Scroll'].initScroll();
-      this.$refs['Scroll'].remountSrcoll(this.scrollTop)
+      this.initScroll();
       this.$refs.words.style.height = 'auto'; // 用来获取高度
       this.autoHeight = this.$refs.words.offsetHeight/50+'rem';
       this.$refs.words.style.height = '1.2rem';
@@ -234,9 +238,9 @@ export default class detailMovie extends Vue {
 
     let result = [];
     // 分数取整
-    let score = Math.floor(this.detailMovie.sc) / 2;
+    const score = Math.floor(this.detailMovie.sc) / 2;
     // 判断是否有半星
-    let hasDecimal = score % 1 !== 0;
+    const hasDecimal = score % 1 !== 0;
     // 计算有几个全星
     let integer = Math.floor(score);
     for (let i = 0; i < integer; i++) {
@@ -254,30 +258,51 @@ export default class detailMovie extends Vue {
   expend () {
     this.show = !this.show;
     this.$refs.words.style.height = this.show?this.autoHeight:'1.2rem';
-    this.$refs['Scroll'].update();
   }
 
   initSwiper () {
     this.mySwiper = new Swiper('#slide', {
       freeMode: true,
-      observer:true,//修改swiper自己或子元素时，自动初始化swiper
-      observeParents:true, //修改swiper的父元素时，自动初始化swiper
+      observer: true,//修改swiper自己或子元素时，自动初始化swiper
+      observeParents: true, //修改swiper的父元素时，自动初始化swiper
       slidesPerView: "auto", // 控制单屏显示的slider的数量
     });
   }
+
+  initScroll() {
+    const scrollDom = this.$refs.bscroll;
+    this.betterScroll = new BScroll(scrollDom, {
+        probeType: 3,
+        scrollY: true,
+        click: true,
+        useTransition: false, // 防止iphone微信滑动卡顿
+        bounce: true,
+        momentumLimitDistance: 5,
+    });
+    this.betterScroll.on('scroll', (pos) => {
+      this.scrollTop();
+    });
+  }
+
   scrollTop() {
-    if (this.$refs['Scroll'].myScroll.y < 0) {
-      this.$refs['Movie-header'].style.backgroundColor="#ee4039";
+    if (this.betterScroll.y < 0) {
+      this.$refs['Movie-header'].style.backgroundColor= '#ee4039';
     } else {
-      this.$refs['Movie-header'].style.backgroundColor=""
+      this.$refs['Movie-header'].style.backgroundColor= '';
     }
   }
-  back () {
+
+  back() {
     this.$router.go(-1);
   }
 }
+export default detailMovie;
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+
+* { touch-action: pan-y; } 
+
 @import '../../assets/scss/DetailMovie.scss'
+
 </style>

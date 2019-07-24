@@ -14,6 +14,7 @@ const willPlay = () => import('./views/film/WillPlay.vue');
 
 const router = new Router({
   mode: 'history',
+  scrollBehavior: () => ({ y: 0 }),
   base: process.env.BASE_URL,
   routes: [
     {

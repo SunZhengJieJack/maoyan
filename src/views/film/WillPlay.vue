@@ -4,7 +4,8 @@
 <template>
     <div class="willCome">
         <div class="willCome_container">
-            <Scroll ref="Scroll">
+            <div ref="bscroll" style="height: calc(100vh - 2.2rem);overflow:hidden">
+            <!-- <Scroll ref="Scroll"> -->
                 <ul class="list" v-if="comingList">
                     <li class="list-li" v-for="(x, index) in comingList" :key="index" @click="jumpDetail(x)">
                         <div class="list-img">
@@ -33,7 +34,8 @@
                     </li>
                 </ul>
                 <Loading v-else/>
-            </Scroll>
+            <!-- </Scroll> -->
+            </div>
         </div>
     </div>
 </template>
@@ -43,16 +45,20 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import Cookies from 'js-cookie';
 import { State, Mutation} from 'vuex-class';
 import Loading from '../../components/Loading.vue'
-import Scroll from '../../components/Scroll.vue'
+import BScroll from 'better-scroll';
+// import Scroll from '../../components/Scroll.vue'
+
     @Component({
       components: {
         Loading,
-        Scroll,
+        // Scroll,
       },
     })
-export default class WillPlay extends Vue {
+    
+class WillPlay extends Vue {
 
     @State('comingList') comingList;
+
     @Mutation('comingData') comingData;
 
     mounted() {
@@ -67,10 +73,21 @@ export default class WillPlay extends Vue {
             });
             this.comingData(comingList);
             setTimeout(() => {
-                // this.initScroll();
-                this.$refs['Scroll'].initScroll()
+                this.initScroll();
             })
         })
+    }
+
+    initScroll() {
+        const scrollDom = this.$refs.bscroll;
+        this.betterScroll = new BScroll(scrollDom, {
+            probeType: 3,
+            scrollY: true,
+            click: true,
+            useTransition: false, // 防止iphone微信滑动卡顿
+            bounce: true,
+            momentumLimitDistance: 5,
+        });
     }
 
     jumpDetail(data) {
@@ -82,6 +99,7 @@ export default class WillPlay extends Vue {
         });
     };
 }
+export default WillPlay;
 </script>
 
 <style lang="scss" scoped>
@@ -90,11 +108,11 @@ export default class WillPlay extends Vue {
     background: #fff;
     overflow: hidden;
     .willCome_container{
-        height: 100vh;
-        overflow: hidden;
+        padding-top: 1.2rem;
+        // height: 100vh;
+        // overflow: hidden;
     }
     .list {
-        padding-bottom: 2.23rem;
         .list-li {
             padding-left: 0.52rem;
             height: 2.23rem;
