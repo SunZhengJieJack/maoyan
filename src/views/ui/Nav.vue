@@ -44,7 +44,7 @@ export default navList;
     background: #fff;
     border-top: .001rem solid #d8d8d8;
     display: flex;
-    z-index: 9999;
+    z-index: 99;
     .wrapper{
       height: .96rem;
       line-height: .72rem;

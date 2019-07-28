@@ -83,7 +83,6 @@ class WillPlay extends Vue {
         this.betterScroll = new BScroll(scrollDom, {
             probeType: 3,
             scrollY: true,
-            click: true,
             useTransition: false, // 防止iphone微信滑动卡顿
             bounce: true,
             momentumLimitDistance: 5,
@@ -109,8 +108,6 @@ export default WillPlay;
     overflow: hidden;
     .willCome_container{
         padding-top: 1.2rem;
-        // height: 100vh;
-        // overflow: hidden;
     }
     .list {
         .list-li {

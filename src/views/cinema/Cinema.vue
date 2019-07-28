@@ -124,7 +124,6 @@ class Cinema extends Vue {
         this.betterScroll = new BScroll(scrollDom, {
             probeType: 3,
             scrollY: true,
-            click: true,
             useTransition: false, // 防止iphone微信滑动卡顿
             bounce: true,
             momentumLimitDistance: 5,

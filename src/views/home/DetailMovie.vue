@@ -55,7 +55,7 @@
                 <p class="maoyan_score">猫眼评分</p>
                 <div class="star">
                   <span>{{detailMovie.sc}}</span>
-                  <div class="starType" v-for="item in itemClasses" :key="item">
+                  <div class="starType" v-for="(item, index) in itemClasses" :key="index">
                     <i class="iconfont" :class="item?'m-star-'+item:''"></i>
                   </div>
                 </div>
@@ -80,7 +80,7 @@
             <div class="words_box">
               <div class="words_translate">
                 <div class="words" ref="words">{{detailMovie.dra}}</div>
-                <p @click="expend"><i class="iconfont" :class="show?'m-arrow-up':'m-arrow-down'"></i></p>
+                <p @click.stop="expend"><i class="iconfont" :class="showActive?'m-arrow-up':'m-arrow-down'"></i></p>
               </div>
             </div>
             <div class="billing">
@@ -125,7 +125,6 @@
                     <header class="person_config">
                       <div class="person_config_continaer">
                         <span class="nick">{{i.nick}}</span>
-                        <!-- <span class="nickName">{{i.nickName}}</span> -->
                         <span class="userLevel">LV{{i.userLevel}}</span>
                       </div>
                       <p class="grade">给这部作品打了10分</p>
@@ -174,7 +173,7 @@ class detailMovie extends Vue {
 
   decideWidth = null;
 
-  show = false;
+  showActive = false;
 
   autoHeight = null;
 
@@ -256,8 +255,8 @@ class detailMovie extends Vue {
   }
 
   expend () {
-    this.show = !this.show;
-    this.$refs.words.style.height = this.show?this.autoHeight:'1.2rem';
+    this.showActive = !this.showActive;
+    this.$refs.words.style.height = this.showActive ? this.autoHeight : '1.2rem';
   }
 
   initSwiper () {
@@ -274,7 +273,6 @@ class detailMovie extends Vue {
     this.betterScroll = new BScroll(scrollDom, {
         probeType: 3,
         scrollY: true,
-        click: true,
         useTransition: false, // 防止iphone微信滑动卡顿
         bounce: true,
         momentumLimitDistance: 5,
